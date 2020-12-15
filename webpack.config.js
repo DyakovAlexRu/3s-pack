@@ -4,7 +4,7 @@ console.log(path.join(__dirname, 'src/images/'));
 
 // Plugins
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const MiniCssWebpackPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -24,7 +24,7 @@ module.exports = {
     new CleanWebpackPlugin({
       dry: true
     }),
-    new MiniCssWebpackPlugin({
+    new MiniCssExtractPlugin({
       filename: filename('css')
     }),
     new HtmlWebpackPlugin({
@@ -53,5 +53,17 @@ module.exports = {
   ],
   devServer: {
     port: 9090
+  },
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
   }
 }
